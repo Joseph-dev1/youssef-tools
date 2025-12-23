@@ -222,7 +222,7 @@ def main():
     ]
     
     # Note: Domain extension .m might be truncated/incorrect, using as provided in screenshot
-    target_url = "https://ev-app-api.aws.playco.m/api/auth/v2/sendOtp"
+    target_url = "https://api.bassthalk.com/api/auth/forget_password_otp"
     
     full_number, sms_count = get_user_input()
     
